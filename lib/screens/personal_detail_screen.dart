@@ -1,3 +1,4 @@
+import 'package:cvdemo/screens/pdf_viewer_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/personal_detail_form_widget.dart';
@@ -16,7 +17,12 @@ class PersonalDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Personal Detail'),
         actions: [
-          IconButton(onPressed: (){}, icon: const Icon(Icons.save))
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => MyPdfForm()));
+              },
+              icon: const Icon(Icons.save))
         ],
       ),
       body: const PersonalDetailWidget(),
