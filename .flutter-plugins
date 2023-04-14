@@ -1,5 +1,11 @@
 # This is a generated file; do not edit or check into version control.
+device_info_plus=/Users/macos12/.pub-cache/hosted/pub.dev/device_info_plus-8.2.0/
 flutter_email_sender=/Users/macos12/.pub-cache/hosted/pub.dev/flutter_email_sender-5.2.0/
+flutter_plugin_android_lifecycle=/Users/macos12/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.9/
+image_picker=/Users/macos12/.pub-cache/hosted/pub.dev/image_picker-0.8.7+2/
+image_picker_android=/Users/macos12/.pub-cache/hosted/pub.dev/image_picker_android-0.8.6+6/
+image_picker_for_web=/Users/macos12/.pub-cache/hosted/pub.dev/image_picker_for_web-2.1.12/
+image_picker_ios=/Users/macos12/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.7+3/
 path_provider=/Users/macos12/.pub-cache/hosted/pub.dev/path_provider-2.0.14/
 path_provider_android=/Users/macos12/.pub-cache/hosted/pub.dev/path_provider_android-2.0.24/
 path_provider_foundation=/Users/macos12/.pub-cache/hosted/pub.dev/path_provider_foundation-2.2.1/

@@ -12,19 +12,21 @@ class ContactUsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Contact Us'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Container(
-          height: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.grey.shade300,
-            borderRadius: BorderRadius.all(Radius.circular(5))
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Contact Us'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Container(
+            height: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.all(Radius.circular(5))
+            ),
+            child: ContactUsFormWidget(),
           ),
-          child: ContactUsFormWidget(),
         ),
       ),
     );
