@@ -46,7 +46,8 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
               const SizedBox(
                 height: 20,
               ),
-              const Align(alignment: Alignment.topLeft, child: Text('Address')),
+              const Align(
+                  alignment: Alignment.topLeft, child: Text('Address')),
               const SizedBox(
                 height: 10,
               ),
@@ -109,7 +110,7 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
               ),
               const Align(
                   alignment: Alignment.topLeft,
-                  child: Text('Photo (Optional)')),
+                  child: Text('Photo (Optio   nal)')),
               const SizedBox(
                 height: 20,
               ),
@@ -119,20 +120,23 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(2)),
+                        borderRadius: const BorderRadius.all(
+                            Radius.circular(2)),
                         border: Border.all(color: Colors.black87)),
                   ),
                   const SizedBox(
                     width: 50,
                   ),
-                  ElevatedButton(onPressed: () {}, child: const Text('Change')),
+                  ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Change')),
                   const SizedBox(
                     width: 20,
                   ),
                   ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Remove'),
-                  style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.red)),),
+                    onPressed: () {},
+                    style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.red)),
+                    child: const Text('Remove'),),
                 ],
               ),
               const SizedBox(
