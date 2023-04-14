@@ -411,7 +411,7 @@
         <entry key="sky_engine">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../FlutterDownload/flutter/bin/cache/pkg/sky_engine/lib" />
+              <option value="$USER_HOME$/Documents/flutter/bin/cache/pkg/sky_engine/lib" />
             </list>
           </value>
         </entry>
