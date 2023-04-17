@@ -110,7 +110,7 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
               ),
               const Align(
                   alignment: Alignment.topLeft,
-                  child: Text('Photo (Optio   nal)')),
+                  child: Text('Photo (Optional)')),
               const SizedBox(
                 height: 20,
               ),

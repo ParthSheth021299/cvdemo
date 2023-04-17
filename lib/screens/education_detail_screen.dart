@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../widgets/education_detail_from_widget.dart';
 
 
@@ -14,7 +13,9 @@ class EducationDetailScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Eduction Detail'),
           actions: [
-            IconButton(onPressed: (){}, icon: const Icon(Icons.save))
+            IconButton(
+                onPressed: (){},
+                icon: const Icon(Icons.save))
           ],
         ),
         body: const EducationDetailWidget(),

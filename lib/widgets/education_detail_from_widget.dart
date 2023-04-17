@@ -9,10 +9,12 @@ class EducationDetailWidget extends StatefulWidget {
 
 class _EducationDetailWidgetState extends State<EducationDetailWidget> {
   TextEditingController courseController = TextEditingController();
+  TextEditingController schoolController = TextEditingController();
+  TextEditingController scoreController = TextEditingController();
+  TextEditingController yearController = TextEditingController();
   int count = 1;
 
-
-  void increaseCount(){
+  void increaseCount() {
     setState(() {
       count += 1;
     });
@@ -28,7 +30,7 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(top: 8,left: 8,right: 8,bottom: 75),
+        padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 75),
         child: ListView.builder(
           itemCount: count,
           itemBuilder: (BuildContext context, index) {
@@ -40,18 +42,31 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.grey.shade400,
                     ),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children:  [
-                        Text('Education ${index + 1}'),
-                        IconButton(onPressed: (){decreaseCount();}, icon: Icon(Icons.delete))
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Education ${index + 1}',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                decreaseCount();
+                              },
+                              icon: Icon(Icons.delete))
+                        ],
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        const Align(alignment: Alignment.topLeft, child: Text('Course/Degree')),
+                        const Align(
+                            alignment: Alignment.topLeft,
+                            child: Text('Course/Degree')),
                         const SizedBox(
                           height: 10,
                         ),
@@ -68,12 +83,14 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                                 borderSide: BorderSide(color: Colors.red)),
                           ),
                         ),
-                        const Align(alignment: Alignment.topLeft, child: Text('School/ University')),
+                        const Align(
+                            alignment: Alignment.topLeft,
+                            child: Text('School/ University')),
                         const SizedBox(
                           height: 10,
                         ),
                         TextFormField(
-                          controller: courseController,
+                          controller: schoolController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(2)),
@@ -84,12 +101,14 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                                 borderSide: BorderSide(color: Colors.red)),
                           ),
                         ),
-                        const Align(alignment: Alignment.topLeft, child: Text('Grade/Score')),
+                        const Align(
+                            alignment: Alignment.topLeft,
+                            child: Text('Grade/Score')),
                         const SizedBox(
                           height: 10,
                         ),
                         TextFormField(
-                          controller: courseController,
+                          controller: scoreController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(2)),
@@ -100,12 +119,13 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                                 borderSide: BorderSide(color: Colors.red)),
                           ),
                         ),
-                        const Align(alignment: Alignment.topLeft, child: Text('year')),
+                        const Align(
+                            alignment: Alignment.topLeft, child: Text('year')),
                         const SizedBox(
                           height: 10,
                         ),
                         TextFormField(
-                          controller: courseController,
+                          controller: yearController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(2)),
@@ -128,8 +148,18 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          ElevatedButton.icon(onPressed: (){increaseCount();}, label: Text('Add'), icon: Icon(Icons.add),),
-          ElevatedButton.icon(onPressed: (){}, label: Text('Save'), icon: Icon(Icons.done),),
+          ElevatedButton.icon(
+            onPressed: () {
+              increaseCount();
+            },
+            label: Text('Add'),
+            icon: Icon(Icons.add),
+          ),
+          ElevatedButton.icon(
+            onPressed: () {},
+            label: Text('Save'),
+            icon: Icon(Icons.done),
+          ),
         ],
       ),
     );
