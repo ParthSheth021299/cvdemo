@@ -15,9 +15,6 @@ class PersonalDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Personal Detail'),
-        actions: [
-          IconButton(onPressed: (){}, icon: const Icon(Icons.save))
-        ],
       ),
       body: const PersonalDetailWidget(),
     );
