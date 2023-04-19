@@ -17,10 +17,10 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('CV Creation'),
+        title: const Text('CV Creation'),
       ),
-      drawer: CustomDrawerWidget(),
-      body: ButtonListWidget(),
+      drawer: const CustomDrawerWidget(),
+      body: const ButtonListWidget(),
     );
   }
 }

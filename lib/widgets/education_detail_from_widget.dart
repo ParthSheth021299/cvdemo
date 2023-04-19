@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'education_list_widget.dart';
 
 class EducationDetailWidget extends StatefulWidget {
   const EducationDetailWidget({Key? key}) : super(key: key);
@@ -8,11 +9,10 @@ class EducationDetailWidget extends StatefulWidget {
 }
 
 class _EducationDetailWidgetState extends State<EducationDetailWidget> {
-  TextEditingController courseController = TextEditingController();
-  TextEditingController schoolController = TextEditingController();
-  TextEditingController scoreController = TextEditingController();
-  TextEditingController yearController = TextEditingController();
+
   int count = 1;
+  bool isSubmitted = false;
+
 
   void increaseCount() {
     setState(() {
@@ -35,6 +35,7 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
           itemCount: count,
           itemBuilder: (BuildContext context, index) {
             return Card(
+              key:  Key('Card$index'),
               child: Column(
                 children: [
                   Container(
@@ -49,119 +50,59 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                         children: [
                           Text(
                             'Education ${index + 1}',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           IconButton(
                               onPressed: () {
                                 decreaseCount();
                               },
-                              icon: Icon(Icons.delete))
+                              icon: const Icon(Icons.delete))
                         ],
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        const Align(
-                            alignment: Alignment.topLeft,
-                            child: Text('Course/Degree')),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          controller: courseController,
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(2)),
-                            errorBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(2),
-                                ),
-                                borderSide: BorderSide(color: Colors.red)),
-                          ),
-                        ),
-                        const Align(
-                            alignment: Alignment.topLeft,
-                            child: Text('School/ University')),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          controller: schoolController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(2)),
-                            errorBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(2),
-                                ),
-                                borderSide: BorderSide(color: Colors.red)),
-                          ),
-                        ),
-                        const Align(
-                            alignment: Alignment.topLeft,
-                            child: Text('Grade/Score')),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          controller: scoreController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(2)),
-                            errorBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(2),
-                                ),
-                                borderSide: BorderSide(color: Colors.red)),
-                          ),
-                        ),
-                        const Align(
-                            alignment: Alignment.topLeft, child: Text('year')),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          controller: yearController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(2)),
-                            errorBorder: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(2),
-                                ),
-                                borderSide: BorderSide(color: Colors.red)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                    child: EducationList(index: index.toString(),)
+                  )
                 ],
               ),
             );
           },
         ),
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ElevatedButton.icon(
-            onPressed: () {
-              increaseCount();
-            },
-            label: Text('Add'),
-            icon: Icon(Icons.add),
-          ),
-          ElevatedButton.icon(
-            onPressed: () {},
-            label: Text('Save'),
-            icon: Icon(Icons.done),
-          ),
-        ],
-      ),
+        /*floatingActionButton:Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton.icon(
+              onPressed: () => increaseCount(),
+              label: Text('Add'),
+              icon: Icon(Icons.add),
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                setState(() {
+                  isSubmitted = true;
+                });
+                // print('Course: ${courseController.text}');
+                // print('School: ${schoolController.text}');
+                // print('Score: ${scoreController.text}');
+                // print('Year: ${yearController.text}');
+                if (_formKey.currentState!.validate()) {
+                  EducationDetailProvider().addEducationDetail(
+                    courseController.text,
+                    schoolController.text,
+                    scoreController.text,
+                    yearController.text,);
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Education Details save successfully')));
+                }
+              },
+              label: Text('Save'),
+              icon: Icon(Icons.done),
+            ),
+          ],
+        );*/
     );
   }
 }

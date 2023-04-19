@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../screens/education_detail_screen.dart';
+import '../screens/experience_detail_screen.dart';
 import '../screens/personal_detail_screen.dart';
 
 /**
@@ -20,7 +21,7 @@ class ComponentsWidget extends StatelessWidget {
           const Divider(),
           componentListing(context,Icons.person,'Personal Details',const PersonalDetailScreen()),
           componentListing(context,Icons.history_edu,'Education',const EducationDetailScreen()),
-          componentListing(context,Icons.person_outline_outlined,'Experience',const PersonalDetailScreen()),
+          componentListing(context,Icons.person_outline_outlined,'Experience',const ExperienceDetailScreen()),
           componentListing(context,Icons.person_outline_outlined,'Skills',const PersonalDetailScreen()),
           componentListing(context,Icons.gps_fixed_outlined,'Objective',const PersonalDetailScreen()),
           componentListing(context,Icons.person_2,'Reference',const PersonalDetailScreen()),
