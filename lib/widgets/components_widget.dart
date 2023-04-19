@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../screens/education_detail_screen.dart';
 import '../screens/personal_detail_screen.dart';
+import '../screens/skills_screen.dart';
 
 /**
  * Created by Parth Sheth.
@@ -21,7 +22,7 @@ class ComponentsWidget extends StatelessWidget {
           componentListing(context,Icons.person,'Personal Details',const PersonalDetailScreen()),
           componentListing(context,Icons.history_edu,'Education',const EducationDetailScreen()),
           componentListing(context,Icons.person_outline_outlined,'Experience',const PersonalDetailScreen()),
-          componentListing(context,Icons.person_outline_outlined,'Skills',const PersonalDetailScreen()),
+          componentListing(context,Icons.person_outline_outlined,'Skills',const SkillScreen()),
           componentListing(context,Icons.gps_fixed_outlined,'Objective',const PersonalDetailScreen()),
           componentListing(context,Icons.person_2,'Reference',const PersonalDetailScreen()),
           const Align(alignment: Alignment.topLeft,child: Text('More Components',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20))),
