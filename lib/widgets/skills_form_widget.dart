@@ -201,6 +201,7 @@ class _SkillFormWidgetState extends State<SkillFormWidget> {
                         print('Count-->${count}');
                         print('Skill List-->${skillValues}');
                         print('Skill Level-->${sliderValues}');
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Skill Added Successfully')));
                       } else {
                         print('Invalid');
                       }
