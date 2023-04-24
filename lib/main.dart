@@ -1,20 +1,15 @@
 import 'package:cvdemo/screens/home_screen.dart';
-import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
   runApp(const MyApp());
-  deviceId();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  print('Firebase${Firebase.initializeApp()}');
 
 }
-Future<void> deviceId() async{
-DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-print('Running on ${androidInfo.id}');  // e.g. "Moto G (4)"
 
-IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-print('Running on ${iosInfo.utsname.machine}');
-}
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

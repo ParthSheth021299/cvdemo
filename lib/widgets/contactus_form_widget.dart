@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
+
 
 /**
  * Created by Parth Sheth.
  * Created on 07/04/23 at 3:28 PM
  *
- * GJGUY
+ *
  */
 
 class ContactUsFormWidget extends StatefulWidget {
@@ -23,27 +23,7 @@ class _ContactUsFormWidgetState extends State<ContactUsFormWidget> {
   TextEditingController txtMessageController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  Future<void> sendEmail() async {
-    final Email email = Email(
-      body: txtMessageController.text,
-      subject: 'Feed back from User ${txtNameController.text}',
-      recipients: ['parthsheth100@gmail.com','parth100sheth'],
-      isHTML: false,
-    );
 
-    try {
-      await FlutterEmailSender.send(email);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Message sent')),
-      );
-      print('Email sent');
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $error')),
-      );
-      print('Error: $error');
-    }
-  }
 
 
   @override
@@ -142,7 +122,6 @@ class _ContactUsFormWidgetState extends State<ContactUsFormWidget> {
             ElevatedButton(onPressed: () async{
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                 await sendEmail();
                 txtNameController.text = '';
                 txtContactController.text = '';
                 txtMessageController.text = '';

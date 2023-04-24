@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
+
 
 import '../screens/contact_us_screen.dart';
 
@@ -25,7 +25,6 @@ class CustomDrawerWidget extends StatelessWidget {
             leading: Icon(Icons.share,color: Colors.black,),
             title: Text('Share'),
             onTap: () {
-              Share.share('Hello');
             },
           ),
           const ListTile(
