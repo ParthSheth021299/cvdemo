@@ -322,154 +322,156 @@ class _SkillFormWidgetState extends State<SkillFormWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Skills'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  for (int i = 0; i < count; i++) {
-                    skillValues.insert(i, controllers[i].text);
-                  }
-                  SkillDataProvider().addPersonalDetail(skillValues, skillLevels.map((skillLevel) => skillLevel.toString().split('.').last).toList());
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Skill save successfully')));
-                }
-              },
-              icon: Icon(Icons.save))
-        ],
-      ),
+
       body: Form(
         key: formKey,
-        child: ScrollablePositionedList.builder(
-          itemCount: count,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Card(
-                child: Column(
-                  children: [
-                    Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: Colors.grey.shade400,
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Skills ${index + 1}',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
+        child: Column(
+          children: [
+            Expanded(
+              child: ScrollablePositionedList.builder(
+                itemCount: count,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Card(
+                      child: Column(
+                        children: [
+                          Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade400,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Skills ${index + 1}',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold, fontSize: 18),
+                                  ),
+                                  IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          count -= 1;
+                                        });
+                                        controllers.removeAt(index);
+                                        skillLevels.removeAt(index);
+                                      }, icon: Icon(Icons.delete))
+                                ],
+                              )),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              controller: controllers[index],
+                              decoration: InputDecoration(
+                                labelText: 'Enter skill',
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  for (int i = 0; i < index; i++) {
+                                    if (controllers[index].text.isEmpty) {
+                                      return "Skill can't be empty";
+                                    }
+                                  }
+                                  return "Skill can't be empty";
+                                }
+                                return null;
+                              },
                             ),
-                            IconButton(
-                                onPressed: () {
+                          ),
+                          Row(
+                            children: [
+                              Radio(
+                                value: SkillLevel.level1,
+                                groupValue: skillLevels[index],
+                                onChanged: (SkillLevel? value) {
                                   setState(() {
-                                    count -= 1;
+                                    skillLevels[index] = value!;
                                   });
-                                  controllers.removeAt(index);
-                                  skillLevels.removeAt(index);
-                                }, icon: Icon(Icons.delete))
-                          ],
-                        )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        controller: controllers[index],
-                        decoration: InputDecoration(
-                          labelText: 'Enter skill',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            for (int i = 0; i < index; i++) {
-                              if (controllers[index].text.isEmpty) {
-                                return "Skill can't be empty";
-                              }
-                            }
-                            return "Skill can't be empty";
-                          }
-                          return null;
-                        },
+                                },
+                              ),
+                              Text('1'),
+                              Radio(
+                                value: SkillLevel.level2,
+                                groupValue: skillLevels[index],
+                                onChanged: (SkillLevel? value) {
+                                  setState(() {
+                                    skillLevels[index] = value!;
+                                  });
+                                },
+                              ),
+                              Text('2'),
+                              Radio(
+                                value: SkillLevel.level3,
+                                groupValue: skillLevels[index],
+                                onChanged: (SkillLevel? value) {
+                                  setState(() {
+                                    skillLevels[index] = value!;
+                                  });
+                                },
+                              ),
+                              Text('3'),
+                              Radio(
+                                value: SkillLevel.level4,
+                                groupValue: skillLevels[index],
+                                onChanged: (SkillLevel? value) {
+                                  setState(() {
+                                    skillLevels[index] = value!;
+                                  });
+                                },
+                              ),
+                              Text('4'),
+                              Radio(
+                                value: SkillLevel.level5,
+                                groupValue: skillLevels[index],
+                                onChanged: (SkillLevel? value) {
+                                  setState(() {
+                                    skillLevels[index] = value!;
+                                  });
+                                },
+                              ),
+                              Text('5'),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Radio(
-                              value: SkillLevel.level1,
-                              groupValue: skillLevels[index],
-                              onChanged: (SkillLevel? value) {
-                                setState(() {
-                                  skillLevels[index] = value!;
-                                });
-                              },
-                            ),
-                            Text('1'),
-                            Radio(
-                              value: SkillLevel.level2,
-                              groupValue: skillLevels[index],
-                              onChanged: (SkillLevel? value) {
-                                setState(() {
-                                  skillLevels[index] = value!;
-                                });
-                              },
-                            ),
-                            Text('2'),
-                            Radio(
-                              value: SkillLevel.level3,
-                              groupValue: skillLevels[index],
-                              onChanged: (SkillLevel? value) {
-                                setState(() {
-                                  skillLevels[index] = value!;
-                                });
-                              },
-                            ),
-                            Text('3'),
-                            Radio(
-                              value: SkillLevel.level4,
-                              groupValue: skillLevels[index],
-                              onChanged: (SkillLevel? value) {
-                                setState(() {
-                                  skillLevels[index] = value!;
-                                });
-                              },
-                            ),
-                            Text('4'),
-                            Radio(
-                              value: SkillLevel.level5,
-                              groupValue: skillLevels[index],
-                              onChanged: (SkillLevel? value) {
-                                setState(() {
-                                  skillLevels[index] = value!;
-                                });
-                              },
-                            ),
-                            Text('5'),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
-            );
-          },
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(onPressed: (){
+                    setState(() {
+                      count += 1;
+                      controllers.add(TextEditingController());
+                      skillLevels.add(SkillLevel.level1);
+                    });
+                  }, child: Text('Add')),
+                  ElevatedButton(onPressed: (){
+                    if (formKey.currentState!.validate()) {
+                      for (int i = 0; i < count; i++) {
+                        skillValues.insert(i, controllers[i].text);
+                      }
+                      SkillDataProvider().addPersonalDetail(skillValues, skillLevels.map((skillLevel) => skillLevel.toString().split('.').last).toList());
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Skill save successfully')));
+                    }
+                  }, child: Text('Save')),
+                ],
+              ),
+            ),
+
+          ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            count += 1;
-            controllers.add(TextEditingController());
-            skillLevels.add(SkillLevel.level1);
-          });
-        },
-        child: Icon(Icons.add),
       ),
     );
   }
