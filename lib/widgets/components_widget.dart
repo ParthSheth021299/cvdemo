@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../screens/education_detail_screen.dart';
 import '../screens/experience_detail_screen.dart';
 import '../screens/personal_detail_screen.dart';
+import '../screens/signature_screen.dart';
 import '../screens/skills_screen.dart';
 
 /**
@@ -29,7 +30,7 @@ class ComponentsWidget extends StatelessWidget {
           const Align(alignment: Alignment.topLeft,child: Text('More Components',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20))),
           const Divider(),
           componentListing(context,Icons.rocket_launch,'Project',const PersonalDetailScreen()),
-          componentListing(context,Icons.edit,'Signature',const PersonalDetailScreen()),
+          componentListing(context,Icons.edit,'Signature',const SignatureScreen()),
           componentListing(context,Icons.messenger,'Cover Letter',const PersonalDetailScreen()),
           componentListing(context,Icons.add,'Add More Section',const PersonalDetailScreen()),
           const Align(alignment: Alignment.topLeft,child: Text('Manage Components',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20))),

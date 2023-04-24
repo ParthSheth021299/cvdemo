@@ -9,7 +9,7 @@ class SkillDataModel {
 
   final String? id;
   final List<String>? skill;
-  final List<double>? skillLevel;
+  final List<String>? skillLevel;
 
   SkillDataModel({
     @required this.id,
