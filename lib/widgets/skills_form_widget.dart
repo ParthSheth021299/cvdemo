@@ -31,7 +31,7 @@ class _SkillFormWidgetState extends State<SkillFormWidget> {
   TextEditingController skillEditController = TextEditingController();
   String? oldValue;
   double skillValue = 2;
-  String _savedText = '';
+  final String _savedText = '';
   String? skillLevelValue;
   List<double> sliderValues = [];
   List<String> skillValues = [];
@@ -72,7 +72,7 @@ class _SkillFormWidgetState extends State<SkillFormWidget> {
         newIndex -= 1;
       }
       count = count - 1;
-      final item = 'Item ${oldIndex + 1}';
+      //final item = 'Item ${oldIndex + 1}';
       count = count + 1;
       if (newIndex > count - 1) newIndex = count - 1;
     });
@@ -188,8 +188,6 @@ class _SkillFormWidgetState extends State<SkillFormWidget> {
                   ///
                   ElevatedButton.icon(
                     onPressed: () {
-
-
                       if (formKey.currentState!.validate()){
                         for (int i = 0; i < count; i++) {
                           skillValues.insert(i, skillEditControllerList[i].text);
@@ -197,7 +195,6 @@ class _SkillFormWidgetState extends State<SkillFormWidget> {
                         }
                         print('SliderLength-->${skillValues.length}');
                         SkillDataProvider().addPersonalDetail(skillValues, sliderValues);
-
                         print('Count-->${count}');
                         print('Skill List-->${skillValues}');
                         print('Skill Level-->${sliderValues}');
@@ -205,7 +202,6 @@ class _SkillFormWidgetState extends State<SkillFormWidget> {
                       } else {
                         print('Invalid');
                       }
-
                     },
                     label: const Text('Save'),
                     icon: const Icon(Icons.save),

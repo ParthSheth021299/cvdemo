@@ -5,10 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 
-/**
- * Created by Parth Sheth.
- * Created on 06/04/23 at 5:33 PM
- */
+/// Created by Parth Sheth.
+/// Created on 06/04/23 at 5:33 PM
 
 class PersonalDetailWidget extends StatefulWidget {
   const PersonalDetailWidget({Key? key}) : super(key: key);
@@ -32,8 +30,8 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
       if (image == null) return;
       final imageTemp = File(image.path);
       setState(() => this.image = imageTemp);
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+    } on PlatformException {
+      //print('Failed to pick image: $e');
     }
   }
 
@@ -205,9 +203,9 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
                        image = null;
                      });
                     },
-                    child: const Text('Remove'),
                     style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(Colors.red)),
+                    child:  const Text('Remove'),
                   ),
                 ],
               ),
@@ -219,11 +217,11 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
                   setState(() {
                     isSubmitted = true;
                   });
-                  print('Name: ${nameController.text}');
-                  print('Address: ${addressController.text}');
-                  print('Email: ${emailController.text}');
-                  print('Phone: ${phoneController.text}');
-                  print('ImageUrl: ${image?.path.toString()}');
+                  // print('Name: ${nameController.text}');
+                  // print('Address: ${addressController.text}');
+                  // print('Email: ${emailController.text}');
+                  // print('Phone: ${phoneController.text}');
+                  // print('ImageUrl: ${image?.path.toString()}');
                   if (_formKey.currentState!.validate()) {
                     // PersonalDetailProvider().addPersonalDetail(
                     //     nameController.text,
