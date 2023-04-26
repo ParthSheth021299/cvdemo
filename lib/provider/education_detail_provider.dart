@@ -11,8 +11,7 @@ class EducationDetailProvider with ChangeNotifier {
     return [...educationDetailList];
   }
 
-  Future<void> addEducationDetail(String course, String school, String grade,
-      String year) async {
+  Future<void> addEducationDetail(List<EducationDetailModel> education) async {
     try {
       ///https://cv-creator-ff265-default-rtdb.firebaseio.com/
 
@@ -20,21 +19,26 @@ class EducationDetailProvider with ChangeNotifier {
           'https://cv-creator-ff265-default-rtdb.firebaseio.com/educationdetails.json';
       final response = await http.post(Uri.parse(url),
           body: json.encode({
-            'courseName': course,
-            'school': school,
-            'grade': grade,
-            'year': year,
+            'courseName': education
+              .map((educations) => {
+          'id': educations.id,
+          'courseName': educations.course,
+          'school': educations.school,
+          'grade': educations.grade,
+          'year': educations.year
+          })
+              .toList(),
           }));
       final newEducationDetail = EducationDetailModel(
           id: json.decode(response.body)['name'],
-          course: course,
-          school: school,
-          grade: grade,
-          year: year,
+        course: '',
+        school: '',
+        grade: '',
+        year: '',
           );
       educationDetailList.insert(0, newEducationDetail);
     } catch (error) {
-      throw error;
+      rethrow;
     }
     notifyListeners();
   }

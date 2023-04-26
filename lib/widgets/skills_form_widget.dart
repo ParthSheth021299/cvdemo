@@ -282,6 +282,8 @@ enum SkillLevel {
 }
 
 class SkillFormWidget extends StatefulWidget {
+  const SkillFormWidget({super.key});
+
   @override
   _SkillFormWidgetState createState() => _SkillFormWidgetState();
 }
@@ -305,8 +307,6 @@ class _SkillFormWidgetState extends State<SkillFormWidget> {
     }
   }
 
-
-
   @override
   void dispose() {
     for (TextEditingController controller in controllers) {
@@ -327,8 +327,8 @@ class _SkillFormWidgetState extends State<SkillFormWidget> {
                   for (int i = 0; i < count; i++) {
                     skillValues.insert(i, controllers[i].text);
                   }
-                  SkillDataProvider().addPersonalDetail(skillValues, skillLevels.map((skillLevel) => skillLevel.toString().split('.').last).toList());
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Skill save successfully')));
+                  SkillDataProvider().addSkillDetail(skillValues, skillLevels.map((skillLevel) => skillLevel.toString().split('.').last).toList());
+                  ScaffoldMessenger.of(context).showSnackBar( const SnackBar(content: Text('Skill save successfully')));
                 }
               },
               icon: Icon(Icons.save))

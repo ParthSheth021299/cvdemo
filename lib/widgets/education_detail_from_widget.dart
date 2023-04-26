@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../models/education_detail_model.dart';
 import '../provider/education_detail_provider.dart';
+import 'custom_education_textfield_widget.dart';
 
 class EducationDetailWidget extends StatefulWidget {
   const EducationDetailWidget({Key? key}) : super(key: key);
@@ -12,41 +15,44 @@ class EducationDetailWidget extends StatefulWidget {
 class _EducationDetailWidgetState extends State<EducationDetailWidget> {
   bool isSubmitted = false;
   int count = 1;
-  final String _savedText = '';
   final educationFormKey = GlobalKey<FormState>();
-  var educationValues =
-      EducationDetailModel(id: '', course: '', school: '', grade: '', year: '');
-  var courseControllerList = [];
-  var schoolControllerList = [];
-  var gradeControllerList = [];
-  var yearControllerList = [];
+  List<String> courseValues = [];
+  List<String> schoolValues = [];
+  List<String> gradeValues = [];
+  List<String> yearValues = [];
+  List<TextEditingController> courseController = [];
+  List<TextEditingController> schoolController = [];
+  List<TextEditingController> gradeController = [];
+  List<TextEditingController> yearController = [];
 
-  TextEditingController courseController = TextEditingController();
-  TextEditingController schoolController = TextEditingController();
-  TextEditingController gradeController = TextEditingController();
-  TextEditingController yearController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
 
-
-  void increaseCount() {
-    setState(() {
-      count = count + 1;
-    });
-  }
-
-  void decreaseCount() {
-    setState(() {
-      count = count - 1;
-    });
-  }
-
-  createControllers() {
-    for (var i = 0; i < count; i++) {
-      courseControllerList.add(TextEditingController(text: _savedText));
-      schoolControllerList.add(TextEditingController(text: _savedText));
-      gradeControllerList.add(TextEditingController(text: _savedText));
-      yearControllerList.add(TextEditingController(text: _savedText));
-      // placeClueFocusNodes.add(FocusNode());
+    for (int i = 0; i < count; i++) {
+      courseController.add(TextEditingController());
+      schoolController.add(TextEditingController());
+      gradeController.add(TextEditingController());
+      yearController.add(TextEditingController());
     }
+  }
+
+
+  @override
+  void dispose() {
+    for (TextEditingController controller in courseController) {
+      controller.dispose();
+    }
+    for (TextEditingController controller in schoolController) {
+      controller.dispose();
+    }
+    for (TextEditingController controller in gradeController) {
+      controller.dispose();
+    }
+    for (TextEditingController controller in yearController) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -57,20 +63,15 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
         child: Padding(
           padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 75),
           child: Column(children: [
-            // courseControllerList.isEmpty
-            //     // schoolControllerList.isEmpty
-            //     // courseControllerList.isEmpty
-            //     // courseControllerList.isEmpty
-            //     ? const Center(
-            //         child: Text('No EducationDetails added'),
-            //       )
-            //     :
+            courseController.isEmpty
+                ? const Center(
+                    child: Text('No EducationDetails added'),
+                  )
+                :
             Expanded(
-              child: ListView.builder(
+              child: ScrollablePositionedList.builder(
                 itemCount: count,
                 itemBuilder: (BuildContext context, int index) {
-                  print('Index:$index');
-                  print('Count:`$count');
                   return Card(
                     key: Key('card$index'),
                     elevation: 2,
@@ -93,8 +94,14 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                                 ),
                                 IconButton(
                                     onPressed: () {
-                                      decreaseCount();
-                                    },
+                                      setState(() {
+                                        count -= 1;
+                                      });
+                                     courseController.removeAt(index);
+                                     schoolController.removeAt(index);
+                                     gradeController.removeAt(index);
+                                     yearController.removeAt(index);
+                                      },
                                     icon: const Icon(Icons.delete))
                               ],
                             ),
@@ -102,14 +109,11 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                         ),
                         Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: textField(index)
-                            // child: EducationList(
-                            //   courseController: courseControllerList[index],
-                            //   schoolController: schoolControllerList[index],
-                            //   gradeController: gradeControllerList[index],
-                            //   yearController: yearControllerList[index],
-                            //   index: index,
-                            // ))
+                            child: EducationList(index: index,
+                              courseController: courseController[index],
+                              schoolController: schoolController[index],
+                              gradeController: gradeController[index],
+                              yearController: courseController[index],)
                             )
                       ],
                     ),
@@ -122,8 +126,13 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
-                    increaseCount();
-                    courseControllerList.add(TextEditingController());
+                    setState(() {
+                      count += 1;
+                      courseController.add(TextEditingController());
+                      schoolController.add(TextEditingController());
+                      gradeController.add(TextEditingController());
+                      yearController.add(TextEditingController());
+                    });
                   },
                   label: Text('Add'),
                   icon: Icon(Icons.add),
@@ -132,45 +141,18 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                   onPressed: () {
                     if (educationFormKey.currentState!.validate()) {
                       for (int i = 0; i < count; i++) {
-                        educationValues = EducationDetailModel(
-                            id: '',
-                            course: courseControllerList[i].text,
-                            school: schoolControllerList[i].text,
-                            grade: gradeControllerList[i].text,
-                            year: yearControllerList[i].text);
-                        // educationValues.insert(
-                        //     i, educationControllerList[i].text);
-                      }
-                      // print('SliderLength-->${educationValues.length}');
-                      EducationDetailProvider().addEducationDetail(
-                          courseControllerList.toString(),
-                          schoolControllerList.toString(),
-                          gradeControllerList.toString(),
-                          yearControllerList.toString());
-                      print('Count-->$count');
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text('Skill Added Successfully')));
-                    } else {
-                      print('Invalid');
+                        courseValues.insert(i, courseController[i].text);
+                        schoolValues.insert(i, schoolController[i].text);
+                        gradeValues.insert(i, gradeController[i].text);
+                        yearValues.insert(i, yearController[i].text);
+                      }List<EducationDetailModel> educationDetailModel = [];
+                      Provider.of<EducationDetailProvider>(context, listen: false).addEducationDetail(educationDetailModel);
+                      ScaffoldMessenger.of(context).showSnackBar( const SnackBar(content: Text('education save successfully')));
                     }
-
-                    // print('Course: ${courseController.text}');
-                    // print('School: ${schoolController.text}');
-                    // print('Score: ${scoreController.text}');
-                    // print('Year: ${yearController.text}');
-                    // if (_formKey.currentState!.validate()) {
-                    //   EducationDetailProvider().addEducationDetail(
-                    //     courseController.text,
-                    //     schoolController.text,
-                    //     scoreController.text,
-                    //     yearController.text,);
-                    //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    //       content: Text('Education Details save successfully')));
-                    // }
                   },
                   label: Text('Save'),
                   icon: Icon(Icons.done),
-                ),
+                )
               ],
             )
           ]),
@@ -185,7 +167,7 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
           height: 10,
         ),
         TextFormField(
-          controller: courseControllerList[index],
+          controller: courseController[index],
           maxLines: 1,
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(2)),
@@ -198,7 +180,7 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
           validator: (value) {
             if (value == null || value.isEmpty) {
               for (int i = 0; i <= index; i++) {
-              if (courseController.text.isEmpty) {
+              if (courseController.isEmpty) {
                 return "Please enter Course/Degree";
               }
               }
@@ -213,7 +195,7 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
           height: 10,
         ),
         TextFormField(
-          controller: schoolControllerList[index],
+          controller: schoolController[index],
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(2)),
             errorBorder: const OutlineInputBorder(
@@ -225,7 +207,7 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
           validator: (value) {
             if (value == null || value.isEmpty) {
               for (int i = 0; i < index; i++) {
-              if (schoolController.text.isEmpty) {
+              if (schoolController.isEmpty) {
                 return 'Please enter School/University';
               }
                }
@@ -239,7 +221,7 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
           height: 10,
         ),
         TextFormField(
-          controller: gradeControllerList[index],
+          controller: gradeController[index],
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(2)),
             errorBorder: const OutlineInputBorder(
@@ -251,7 +233,7 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
           validator: (value) {
             if (value == null || value.isEmpty) {
               for (int i = 0; i < index; i++) {
-              if (gradeController.text.isEmpty) {
+              if (gradeController.isEmpty) {
                 return 'Please enter Grade';
               }
               }
@@ -265,7 +247,7 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
           height: 10,
         ),
         TextFormField(
-          controller: yearControllerList[index],
+          controller: yearController[index],
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(2)),
             errorBorder: const OutlineInputBorder(
@@ -277,7 +259,7 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
           validator: (value) {
             if (value == null || value.isEmpty) {
               for (int i = 0; i < index; i++) {
-              if (yearController.text.isEmpty) {
+              if (yearController.isEmpty) {
                 return 'Please enter year';
               }
               }

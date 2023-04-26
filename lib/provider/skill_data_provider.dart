@@ -16,7 +16,7 @@ class SkillDataProvider with ChangeNotifier {
     return [...skillDataList];
   }
 
-  Future<void> addPersonalDetail(List<String> skill, List<String> skillLevel,) async {
+  Future<void> addSkillDetail(List<String> skill, List<String> skillLevel,) async {
     try {
       ///https://cv-creator-ff265-default-rtdb.firebaseio.com/
 

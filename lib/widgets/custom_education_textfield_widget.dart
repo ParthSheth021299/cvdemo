@@ -35,8 +35,7 @@ class _EducationListState extends State<EducationList> {
           controller: widget.courseController,
           maxLines: 1,
           decoration: InputDecoration(
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(2)),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(2)),
             errorBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(2),
@@ -56,16 +55,14 @@ class _EducationListState extends State<EducationList> {
           },
         ),
         const Align(
-            alignment: Alignment.topLeft,
-            child: Text('School/ University')),
+            alignment: Alignment.topLeft, child: Text('School/ University')),
         const SizedBox(
           height: 10,
         ),
         TextFormField(
           controller: widget.schoolController,
           decoration: InputDecoration(
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(2)),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(2)),
             errorBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(2),
@@ -84,17 +81,14 @@ class _EducationListState extends State<EducationList> {
             return null;
           },
         ),
-        const Align(
-            alignment: Alignment.topLeft,
-            child: Text('Grade/Score')),
+        const Align(alignment: Alignment.topLeft, child: Text('Grade/Score')),
         const SizedBox(
           height: 10,
         ),
         TextFormField(
           controller: widget.gradeController,
           decoration: InputDecoration(
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(2)),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(2)),
             errorBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(2),
@@ -113,17 +107,14 @@ class _EducationListState extends State<EducationList> {
             return null;
           },
         ),
-        const Align(
-            alignment: Alignment.topLeft,
-            child: Text('year')),
+        const Align(alignment: Alignment.topLeft, child: Text('year')),
         const SizedBox(
           height: 10,
         ),
         TextFormField(
           controller: widget.yearController,
           decoration: InputDecoration(
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(2)),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(2)),
             errorBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(2),
