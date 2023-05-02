@@ -1,5 +1,8 @@
 import 'package:cvdemo/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/personal_detail_provider.dart';
 
 /**
  * Created by Parth Sheth.
@@ -14,6 +17,8 @@ class CreateCV extends StatefulWidget {
 }
 
 class _CreateCVState extends State<CreateCV> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,13 +1,16 @@
+import 'package:cvdemo/provider/education_detail_provider.dart';
+import 'package:cvdemo/provider/personal_detail_provider.dart';
 import 'package:cvdemo/screens/home_screen.dart';
+import 'package:cvdemo/widgets/simple_pdf_viewer_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   runApp(const MyApp());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   print('Firebase${Firebase.initializeApp()}');
-
 }
 
 class MyApp extends StatelessWidget {
@@ -23,8 +26,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(),
+      home: HomeScreen(),
+      routes: {SimpleCvViewer.routeName: (ctx) => const SimpleCvViewer()},
     );
   }
 }
-

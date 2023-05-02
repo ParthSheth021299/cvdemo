@@ -24,7 +24,7 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
   List<TextEditingController> schoolController = [];
   List<TextEditingController> gradeController = [];
   List<TextEditingController> yearController = [];
-
+  var educationProvider;
   @override
   void initState() {
     super.initState();
@@ -36,7 +36,6 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
       yearController.add(TextEditingController());
     }
   }
-
 
   @override
   void dispose() {
@@ -61,13 +60,8 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
     return Form(
         key: educationFormKey,
         child: Padding(
-          padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 75),
+          padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
           child: Column(children: [
-            courseController.isEmpty
-                ? const Center(
-                    child: Text('No EducationDetails added'),
-                  )
-                :
             Expanded(
               child: ScrollablePositionedList.builder(
                 itemCount: count,
@@ -97,11 +91,11 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                                       setState(() {
                                         count -= 1;
                                       });
-                                     courseController.removeAt(index);
-                                     schoolController.removeAt(index);
-                                     gradeController.removeAt(index);
-                                     yearController.removeAt(index);
-                                      },
+                                      courseController.removeAt(index);
+                                      schoolController.removeAt(index);
+                                      gradeController.removeAt(index);
+                                      yearController.removeAt(index);
+                                    },
                                     icon: const Icon(Icons.delete))
                               ],
                             ),
@@ -109,12 +103,14 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                         ),
                         Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: EducationList(index: index,
+                            child: EducationList(
+                              index: index,
                               courseController: courseController[index],
                               schoolController: schoolController[index],
                               gradeController: gradeController[index],
-                              yearController: courseController[index],)
+                              yearController: yearController[index],
                             )
+                        )
                       ],
                     ),
                   );
@@ -139,15 +135,26 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
+                    List<EducationDetailModel> educationDetailModel = [];
                     if (educationFormKey.currentState!.validate()) {
+                      setState(() {
+                        isSubmitted = true;
+                      });
                       for (int i = 0; i < count; i++) {
                         courseValues.insert(i, courseController[i].text);
                         schoolValues.insert(i, schoolController[i].text);
                         gradeValues.insert(i, gradeController[i].text);
                         yearValues.insert(i, yearController[i].text);
-                      }List<EducationDetailModel> educationDetailModel = [];
-                      Provider.of<EducationDetailProvider>(context, listen: false).addEducationDetail(educationDetailModel);
-                      ScaffoldMessenger.of(context).showSnackBar( const SnackBar(content: Text('education save successfully')));
+                        educationDetailModel.add(EducationDetailModel(
+                            course: courseController[i].text,
+                            school: schoolController[i].text,
+                            grade: gradeController[i].text,
+                            year: yearController[i].text));
+                      }
+                      print('Data:${educationDetailModel}');
+                      EducationDetailProvider().addEducationDetail(educationDetailModel);
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('education save successfully')));
                     }
                   },
                   label: Text('Save'),
@@ -159,7 +166,7 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
         ));
   }
 
-  Widget textField(int index) {
+/* Widget textField(int index) {
     return Column(
       children: [
         const Align(alignment: Alignment.topLeft, child: Text('Course/Degree')),
@@ -270,5 +277,5 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
         ),
       ],
     );
-  }
+  }*/
 }

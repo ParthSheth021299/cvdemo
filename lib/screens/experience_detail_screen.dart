@@ -7,19 +7,17 @@ class ExperienceDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          title: const Text('Experience Detail'),
-          actions: [
-            IconButton(
-                onPressed: (){},
-                icon: const Icon(Icons.save))
-          ],
-        ),
-        body: const ExperienceDetailWidget(),
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        title: const Text('Experience Detail'),
+        actions: [
+          IconButton(
+              onPressed: (){},
+              icon: const Icon(Icons.save))
+        ],
       ),
+      body: const ExperienceDetailWidget(),
     );
   }
 }

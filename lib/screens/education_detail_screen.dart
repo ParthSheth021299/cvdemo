@@ -7,19 +7,12 @@ class EducationDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          title: const Text('Eduction Detail'),
-          actions: [
-            IconButton(
-                onPressed: (){},
-                icon: const Icon(Icons.save))
-          ],
-        ),
-        body: const EducationDetailWidget(),
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        title: const Text('Eduction Detail'),
       ),
+      body: const EducationDetailWidget(),
     );
   }
 }

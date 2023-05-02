@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../provider/personal_detail_provider.dart';
+
 
 /// Created by Parth Sheth.
 /// Created on 06/04/23 at 5:33 PM
@@ -223,12 +225,12 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
                   // print('Phone: ${phoneController.text}');
                   // print('ImageUrl: ${image?.path.toString()}');
                   if (_formKey.currentState!.validate()) {
-                    // PersonalDetailProvider().addPersonalDetail(
-                    //     nameController.text,
-                    //     addressController.text,
-                    //     emailController.text,
-                    //     phoneController.text,
-                    //     image?.path == null ? '' : image!.path.toString());
+                    PersonalDetailProvider().addPersonalDetail(
+                        nameController.text,
+                        addressController.text,
+                        emailController.text,
+                        phoneController.text,
+                        image?.path == null ? '' : image!.path.toString());
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Personal Details save successfully')));
                   }
 

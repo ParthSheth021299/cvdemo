@@ -19,7 +19,7 @@ class EducationDetailProvider with ChangeNotifier {
           'https://cv-creator-ff265-default-rtdb.firebaseio.com/educationdetails.json';
       final response = await http.post(Uri.parse(url),
           body: json.encode({
-            'courseName': education
+            'Education': education
               .map((educations) => {
           'id': educations.id,
           'courseName': educations.course,
@@ -31,10 +31,10 @@ class EducationDetailProvider with ChangeNotifier {
           }));
       final newEducationDetail = EducationDetailModel(
           id: json.decode(response.body)['name'],
-        course: '',
-        school: '',
-        grade: '',
-        year: '',
+        course: education.map((e) => e.course).toString(),
+        school: education.map((e) => e.school).toString(),
+        grade: education.map((e) => e.grade).toString(),
+        year: education.map((e) => e.year).toString(),
           );
       educationDetailList.insert(0, newEducationDetail);
     } catch (error) {

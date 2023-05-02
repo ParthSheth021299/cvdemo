@@ -1,3 +1,4 @@
+import 'package:cvdemo/screens/pdf_view_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/components_widget.dart';
@@ -15,7 +16,13 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Profile'),
       ),
-      bottomNavigationBar: ElevatedButton.icon(onPressed: (){}, label: const Text('View CV'), icon: const Icon(Icons.remove_red_eye),),
+      bottomNavigationBar: ElevatedButton.icon(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PdfViewerScreen()));
+        },
+        label: const Text('View CV'),
+        icon: const Icon(Icons.remove_red_eye),
+      ),
       body: const ComponentsWidget(),
     );
   }

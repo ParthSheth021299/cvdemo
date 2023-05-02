@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class EducationList extends StatefulWidget {
-  const EducationList({Key? key, required this.index,
-    required this.courseController,
-    required this.schoolController,
-    required this.gradeController,
-    required this.yearController})
+  const EducationList(
+      {Key? key,
+      required this.index,
+      required this.courseController,
+      required this.schoolController,
+      required this.gradeController,
+      required this.yearController})
       : super(key: key);
 
   final int index;
@@ -19,15 +21,11 @@ class EducationList extends StatefulWidget {
 }
 
 class _EducationListState extends State<EducationList> {
-
   @override
   Widget build(BuildContext context) {
-    print('Widget Index:${widget.index}');
     return Column(
       children: [
-        const Align(
-            alignment: Alignment.topLeft,
-            child: Text('Course/Degree')),
+        const Align(alignment: Alignment.topLeft, child: Text('Course/Degree')),
         const SizedBox(
           height: 10,
         ),
@@ -53,6 +51,9 @@ class _EducationListState extends State<EducationList> {
             }
             return null;
           },
+        ),
+        const SizedBox(
+          height: 10,
         ),
         const Align(
             alignment: Alignment.topLeft, child: Text('School/ University')),
@@ -81,6 +82,9 @@ class _EducationListState extends State<EducationList> {
             return null;
           },
         ),
+        const SizedBox(
+          height: 10,
+        ),
         const Align(alignment: Alignment.topLeft, child: Text('Grade/Score')),
         const SizedBox(
           height: 10,
@@ -107,12 +111,17 @@ class _EducationListState extends State<EducationList> {
             return null;
           },
         ),
-        const Align(alignment: Alignment.topLeft, child: Text('year')),
+        const SizedBox(
+          height: 10,
+        ),
+        const Align(alignment: Alignment.topLeft, child: Text('Year')),
         const SizedBox(
           height: 10,
         ),
         TextFormField(
           controller: widget.yearController,
+          keyboardType: TextInputType.number,
+          maxLength: 4,
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(2)),
             errorBorder: const OutlineInputBorder(
