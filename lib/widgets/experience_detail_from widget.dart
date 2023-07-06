@@ -1,4 +1,9 @@
+import 'package:cvdemo/widgets/custom_experience_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+import '../models/experience_detail_model.dart';
+import '../provider/experience_detail_provider.dart';
 
 class ExperienceDetailWidget extends StatefulWidget {
   const ExperienceDetailWidget({Key? key}) : super(key: key);
@@ -8,34 +13,29 @@ class ExperienceDetailWidget extends StatefulWidget {
 }
 
 class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
-
-  // TextEditingController startController = TextEditingController();
-  // TextEditingController endController = TextEditingController();
   List<TextEditingController> companyController = [];
   List<TextEditingController> jobController = [];
+  List<TextEditingController> startController = [];
+  List<TextEditingController> endController = [];
   List<TextEditingController> detailsController = [];
 
-  final _formKey = GlobalKey<FormState>();
+  List<String> companyValues = [];
+  List<String> jobValues = [];
+  List<String> startValues = [];
+  List<String> endValues = [];
+  List<String> detailsValues = [];
+
+  final experienceKey = GlobalKey<FormState>();
   bool isSubmitted = false;
   int count = 1;
-
-  void increaseCount() {
-    setState(() {
-      count += 1;
-    });
-  }
-
-  void decreaseCount() {
-    setState(() {
-      count -= 1;
-    });
-  }
 
   @override
   void initState() {
     for (int i = 0; i < count; i++) {
       companyController.add(TextEditingController());
       jobController.add(TextEditingController());
+      startController.add(TextEditingController());
+      endController.add(TextEditingController());
       detailsController.add(TextEditingController());
     }
     super.initState();
@@ -47,6 +47,12 @@ class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
       controller.dispose();
     }
     for (TextEditingController controller in jobController) {
+      controller.dispose();
+    }
+    for (TextEditingController controller in startController) {
+      controller.dispose();
+    }
+    for (TextEditingController controller in endController) {
       controller.dispose();
     }
     for (TextEditingController controller in detailsController) {
@@ -61,12 +67,12 @@ class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
     return Scaffold(
       body: Form(
         autovalidateMode: isSubmitted
-        ? AutovalidateMode.onUserInteraction
+            ? AutovalidateMode.onUserInteraction
             : AutovalidateMode.disabled,
-        key: _formKey,
+        key: experienceKey,
         child: Padding(
           padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 75),
-          child: ListView.builder(
+          child: ScrollablePositionedList.builder(
             itemCount: count,
             itemBuilder: (BuildContext context, index) {
               return Card(
@@ -84,11 +90,19 @@ class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
                           children: [
                             Text(
                               'Experience ${index + 1}',
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             IconButton(
                                 onPressed: () {
-                                  decreaseCount();
+                                  setState(() {
+                                    count -= 1;
+                                  });
+                                  companyController.removeAt(index);
+                                  jobController.removeAt(index);
+                                  startController.removeAt(index);
+                                  endController.removeAt(index);
+                                  detailsController.removeAt(index);
                                 },
                                 icon: const Icon(Icons.delete))
                           ],
@@ -96,154 +110,15 @@ class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          const Align(
-                              alignment: Alignment.topLeft,
-                              child: Text('Company Name')),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            controller: companyController[index],
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(2)),
-                              errorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(2),
-                                  ),
-                                  borderSide: BorderSide(color: Colors.red)),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter Company';
-                              }
-                              return null;
-                            },
-                          ),
-                          const Align(
-                              alignment: Alignment.topLeft,
-                              child: Text('Job Title')),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            controller: jobController[index],
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(2)),
-                              errorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(2),
-                                  ),
-                                  borderSide: BorderSide(color: Colors.red)),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter Job Title';
-                              }
-                              return null;
-                            },
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Column(children: [
-                                  const Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text('Start Date')),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(2)),
-                                      errorBorder: const OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(2),
-                                          ),
-                                          borderSide:
-                                              BorderSide(color: Colors.red)),
-                                    ),
-                                    onTap: () {
-                                      DatePickerDialog(initialDate: DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime.now());
-                                    },
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Please enter details';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ]),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: Column(children: [
-                                  const Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text('End Date')),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  TextFormField(
-                                    // controller: endController,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(2)),
-                                      errorBorder: const OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(2),
-                                          ),
-                                          borderSide:
-                                              BorderSide(color: Colors.red)),
-                                    ),
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Please enter details';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ]),
-                              ),
-                            ],
-                          ),
-                          const Align(
-                              alignment: Alignment.topLeft,
-                              child: Text('Details')),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            controller: detailsController[index],
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(2)),
-                              errorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(2),
-                                  ),
-                                  borderSide: BorderSide(color: Colors.red)),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter details';
-                              }
-                              return null;
-                            },
-                          ),
-                        ],
-                      ),
-                    )
+                        padding: const EdgeInsets.all(8.0),
+                        child: ExperienceList(
+                          index: index,
+                          companyController: companyController[index],
+                          jobController: jobController[index],
+                          startController: startController[index],
+                          endController: endController[index],
+                          detailsController: detailsController[index],
+                        ))
                   ],
                 ),
               );
@@ -256,25 +131,44 @@ class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
         children: [
           ElevatedButton.icon(
             onPressed: () {
-              increaseCount();
+              setState(() {
+                count += 1;
+                companyController.add(TextEditingController());
+                jobController.add(TextEditingController());
+                startController.add(TextEditingController());
+                endController.add(TextEditingController());
+                detailsController.add(TextEditingController());
+              });
             },
             label: const Text('Add'),
             icon: const Icon(Icons.add),
           ),
           ElevatedButton.icon(
             onPressed: () {
-              setState(() {
-                isSubmitted = true;
-              });
-
-              if (_formKey.currentState!.validate()) {
-                // EducationDetailProvider().addEducationDetail(
-                //   courseController.text,
-                //   schoolController.text,
-                //   scoreController.text,
-                //   yearController.text,);
+              List<ExperienceDetailModel> experienceDetailModel = [];
+              if (experienceKey.currentState!.validate()) {
+                setState(() {
+                  isSubmitted = true;
+                });
+                for (int i = 0; i < count; i++) {
+                  companyValues.insert(i, companyController[i].text);
+                  jobValues.insert(i, jobController[i].text);
+                  startValues.insert(i, startController[i].text);
+                  endValues.insert(i, endController[i].text);
+                  detailsValues.insert(i, detailsController[i].text);
+                  experienceDetailModel.add(ExperienceDetailModel(
+                      company: companyController[i].text,
+                      job: jobController[i].text,
+                      startDate: startController[i].text,
+                      endDate: endController[i].text,
+                      details: detailsController[i].text,
+                      id: ''));
+                }
+                print('Data:$experienceDetailModel');
+                ExperienceDetailProvider()
+                    .addExperienceDetail(experienceDetailModel);
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Education Details save successfully')));
+                    content: Text('experience save successfully')));
               }
             },
             label: const Text('Save'),
@@ -285,56 +179,3 @@ class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
     );
   }
 }
-/*
-Expanded(
-flex: 2,
-child: Row(
-// mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-children: [
-const Align(
-alignment: Alignment.topLeft,
-child: Text('Start Date')),
-TextFormField(
-controller: startController,
-decoration: InputDecoration(
-border: OutlineInputBorder(
-borderRadius: BorderRadius.circular(2)),
-errorBorder: const OutlineInputBorder(
-borderRadius: BorderRadius.all(
-Radius.circular(2),
-),
-borderSide:
-BorderSide(color: Colors.red)),
-),
-validator: (value) {
-if (value!.isEmpty) {
-return 'Please enter start date';
-}
-return null;
-},
-),
-const Align(
-alignment: Alignment.topLeft,
-child: Text('End Date')),
-TextFormField(
-controller: endController,
-decoration: InputDecoration(
-border: OutlineInputBorder(
-borderRadius: BorderRadius.circular(2)),
-errorBorder: const OutlineInputBorder(
-borderRadius: BorderRadius.all(
-Radius.circular(2),
-),
-borderSide:
-BorderSide(color: Colors.red)),
-),
-validator: (value) {
-if (value!.isEmpty) {
-return 'Please enter End Date';
-}
-return null;
-},
-),
-],
-),
-),*/
