@@ -148,7 +148,7 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                             course: courseController[i].text,
                             school: schoolController[i].text,
                             grade: gradeController[i].text,
-                            year: yearController[i].text));
+                            year: yearController[i].text, id: ''));
                       }
                       print('Data:${educationDetailModel}');
                       EducationDetailProvider().addEducationDetail(educationDetailModel);
