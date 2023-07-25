@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -25,18 +26,31 @@ class SimpleCvViewer extends StatefulWidget {
 class _SimpleCvViewerState extends State<SimpleCvViewer> {
   final pdf = pw.Document();
 
+  void _createPdf() async {
+    final bytes = await rootBundle.load('assets/images/png/applogo.png');
+    final imageProvider = pw.MemoryImage(bytes.buffer.asUint8List());
+    final image = pw.Image(imageProvider, height: 50, width: 50);
 
-
-  void _createPdf() async{
     pdf.addPage(pw.Page(
       margin: const pw.EdgeInsets.all(20),
       build: (pw.Context context) {
         return pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
-            pw.Text('John Doe', style: const pw.TextStyle(fontSize: 25)),
-            pw.SizedBox(height: 10),
-            pw.Text('Software Engineer', style: const pw.TextStyle(fontSize: 18)),
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.start,
+              children: [
+                image,
+                pw.Column(
+                  mainAxisAlignment: pw.MainAxisAlignment.start,
+                 children: [
+                   pw.Text('John Doe', style: const pw.TextStyle(fontSize: 25)),
+                   pw.SizedBox(height: 10),
+                   pw.Text('Software Engineer', style: const pw.TextStyle(fontSize: 18)),
+                 ]
+                )
+              ]
+            ),
             pw.Divider(thickness: 1, color: PdfColors.grey300),
             pw.SizedBox(height: 10),
             pw.Row(
@@ -57,11 +71,13 @@ class _SimpleCvViewerState extends State<SimpleCvViewer> {
                 pw.Column(
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
-                    pw.Text('Location', style: const pw.TextStyle(fontSize: 16)),
+                    pw.Text('Location',
+                        style: const pw.TextStyle(fontSize: 16)),
                     pw.SizedBox(height: 5),
                     pw.Text('New York, NY'),
                     pw.SizedBox(height: 10),
-                    pw.Text('LinkedIn', style: const pw.TextStyle(fontSize: 16)),
+                    pw.Text('LinkedIn',
+                        style: const pw.TextStyle(fontSize: 16)),
                     pw.SizedBox(height: 5),
                     pw.Text('linkedin.com/in/johndoe'),
                   ],
@@ -93,15 +109,18 @@ class _SimpleCvViewerState extends State<SimpleCvViewer> {
             pw.SizedBox(height: 20),
             pw.Text('Experience', style: const pw.TextStyle(fontSize: 20)),
             pw.SizedBox(height: 10),
-            pw.Text('Software Engineer', style: const pw.TextStyle(fontSize: 18)),
+            pw.Text('Software Engineer',
+                style: const pw.TextStyle(fontSize: 18)),
             pw.Text('ABC Company', style: const pw.TextStyle(fontSize: 16)),
             pw.Text('New York, NY', style: const pw.TextStyle(fontSize: 16)),
             pw.SizedBox(height: 5),
-            pw.Text('Jan 2018 - Present', style: const pw.TextStyle(fontSize: 16)),
+            pw.Text('Jan 2018 - Present',
+                style: const pw.TextStyle(fontSize: 16)),
           ],
         );
       },
     ));
+
   }
 
   Future<void> _savePdf() async {
@@ -117,18 +136,18 @@ class _SimpleCvViewerState extends State<SimpleCvViewer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(onPressed: () async {
-                await _savePdf();
-              }, child: const Text('View'))
-            ],
-          ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+                onPressed: () async {
+                  await _savePdf();
+                },
+                child: const Text('View'))
+          ],
         ),
-      );
+      ),
+    );
   }
-
-
 }

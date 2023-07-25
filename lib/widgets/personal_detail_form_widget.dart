@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 
 import '../provider/personal_detail_provider.dart';
 
-
 /// Created by Parth Sheth.
 /// Created on 06/04/23 at 5:33 PM
 
@@ -49,12 +48,16 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const Align(alignment: Alignment.topLeft, child: Text('Name',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)),
+              const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Name',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  )),
               const SizedBox(
                 height: 10,
               ),
               TextFormField(
-
                 controller: nameController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -76,7 +79,12 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
               const SizedBox(
                 height: 20,
               ),
-              const Align(alignment: Alignment.topLeft, child: Text('Address',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)),
+              const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Address',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  )),
               const SizedBox(
                 height: 10,
               ),
@@ -103,7 +111,12 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
               const SizedBox(
                 height: 20,
               ),
-              const Align(alignment: Alignment.topLeft, child: Text('Email',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)),
+              const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Email',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  )),
               const SizedBox(
                 height: 10,
               ),
@@ -133,7 +146,12 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
               const SizedBox(
                 height: 20,
               ),
-              const Align(alignment: Alignment.topLeft, child: Text('Phone',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)),
+              const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Phone',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  )),
               const SizedBox(
                 height: 10,
               ),
@@ -164,11 +182,14 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
               ),
               const Align(
                   alignment: Alignment.topLeft,
-                  child: Text('Photo (Optional)',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)),
+                  child: Text(
+                    'Photo (Optional)',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  )),
               const SizedBox(
                 height: 20,
               ),
-              Row(
+              Column(
                 children: [
                   Container(
                     width: 100,
@@ -186,33 +207,42 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
                               textAlign: TextAlign.center,
                             )),
                           )
-                        : Image.file(image!,fit: BoxFit.fill,),
+                        : Image.file(
+                            image!,
+                            fit: BoxFit.fill,
+                          ),
                   ),
                   const SizedBox(
-                    width: 50,
+                    height: 20,
                   ),
-                  ElevatedButton(
-                      onPressed: () async {
-                        await pickImage();
-                      },
-                      child: const Text('Change')),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                     setState(() {
-                       image = null;
-                     });
-                    },
-                    style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(Colors.red)),
-                    child:  const Text('Remove'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () async {
+                            await pickImage();
+                          },
+                          child: const Text('Change')),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            image = null;
+                          });
+                        },
+                        style: const ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.red)),
+                        child: const Text('Remove'),
+                      ),
+                    ],
                   ),
                 ],
               ),
               const SizedBox(
-                width: 20,
+                height: 20,
               ),
               ElevatedButton.icon(
                 onPressed: () {
@@ -231,9 +261,9 @@ class _PersonalDetailWidgetState extends State<PersonalDetailWidget> {
                         emailController.text,
                         phoneController.text,
                         image?.path == null ? '' : image!.path.toString());
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Personal Details save successfully')));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Personal Details save successfully')));
                   }
-
                 },
                 icon: const Icon(Icons.save),
                 label: const Text('Save'),

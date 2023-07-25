@@ -25,6 +25,18 @@ class _CreateCVState extends State<CreateCV> {
       appBar: AppBar(
         title: const Text('Create your cv'),
       ),
+      body: Column(
+        children: [
+          Card(
+            child: Column(
+              children: [
+                ClipRRect(
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
       bottomNavigationBar: ElevatedButton.icon(
           style: const ButtonStyle(
             elevation: MaterialStatePropertyAll(0),

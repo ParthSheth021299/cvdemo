@@ -43,5 +43,10 @@ class EducationDetailProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchList() async {}
+  Future<void> fetchList() async {
+    const url =
+        'https://cv-creator-ff265-default-rtdb.firebaseio.com/educationdetails.json';
+    final response = await http.get(Uri.parse(url));
+    print('Response-->${response.body[0]}');
+  }
 }

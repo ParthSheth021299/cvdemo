@@ -20,16 +20,16 @@ class ButtonListWidget extends StatelessWidget {
           ElevatedButton.icon(
               onPressed: () {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => CreateCV()));
+                    .push(MaterialPageRoute(builder: (context) => const CreateCV()));
               },
-              icon: Icon(Icons.create),
-              label: Text('Create new CV')),
+              icon: const Icon(Icons.create),
+              label: const Text('Create new CV')),
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: ElevatedButton.icon(
                 onPressed: () {},
-                icon: Icon(Icons.download),
-                label: Text('Download CV   ')),
+                icon: const Icon(Icons.download),
+                label: const Text('Download CV   ')),
           ),
         ],
       ),

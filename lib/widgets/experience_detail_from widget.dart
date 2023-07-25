@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class ExperienceDetailWidget extends StatefulWidget {
   const ExperienceDetailWidget({Key? key}) : super(key: key);
@@ -8,37 +10,32 @@ class ExperienceDetailWidget extends StatefulWidget {
 }
 
 class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
-
-  // TextEditingController startController = TextEditingController();
-  // TextEditingController endController = TextEditingController();
   List<TextEditingController> companyController = [];
   List<TextEditingController> jobController = [];
   List<TextEditingController> detailsController = [];
+  List<TextEditingController> startController = [];
+  List<TextEditingController> endController = [];
+
+  List<String> companyName = [];
+  List<String> jobTitle = [];
+  List<String> startDate = [];
+  List<String> endDate = [];
+  List<String> details = [];
 
   final _formKey = GlobalKey<FormState>();
   bool isSubmitted = false;
   int count = 1;
 
-  void increaseCount() {
-    setState(() {
-      count += 1;
-    });
-  }
-
-  void decreaseCount() {
-    setState(() {
-      count -= 1;
-    });
-  }
-
   @override
   void initState() {
+    super.initState();
     for (int i = 0; i < count; i++) {
       companyController.add(TextEditingController());
       jobController.add(TextEditingController());
       detailsController.add(TextEditingController());
+      startController.add(TextEditingController());
+      endController.add(TextEditingController());
     }
-    super.initState();
   }
 
   @override
@@ -59,16 +56,40 @@ class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Experience Detail'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+
+                  for (int i = 0; i < count; i++) {
+                    companyName.insert(i, companyController[i].text);
+                    jobTitle.insert(i, jobController[i].text);
+                    startDate.insert(i, startController[i].text);
+                    endDate.insert(i, endController[i].text);
+                    details.insert(i, detailsController[i].text);
+                  }
+                  print(
+                      'Experience details  COMPANY NAME ${companyName}  JOB TITLE ${jobTitle}  START DATE ${startDate} END DATE ${endDate}  DETAILS ${details}');
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Experience details save successfully')));
+                }
+              },
+              icon: const Icon(Icons.save))
+        ],
+      ),
       body: Form(
         autovalidateMode: isSubmitted
-        ? AutovalidateMode.onUserInteraction
+            ? AutovalidateMode.onUserInteraction
             : AutovalidateMode.disabled,
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 75),
-          child: ListView.builder(
+          child: ScrollablePositionedList.builder(
             itemCount: count,
-            itemBuilder: (BuildContext context, index) {
+            itemBuilder: (context, index) {
+              print('INDEX VALUE $index');
               return Card(
                 child: Column(
                   children: [
@@ -84,11 +105,21 @@ class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
                           children: [
                             Text(
                               'Experience ${index + 1}',
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             IconButton(
                                 onPressed: () {
-                                  decreaseCount();
+                                  if (count > 1) {
+                                    setState(() {
+                                      count -= 1;
+                                    });
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                'You cannot delete this item')));
+                                  }
                                 },
                                 icon: const Icon(Icons.delete))
                           ],
@@ -158,8 +189,14 @@ class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  TextFormField(
+                                  TextField(
+                                    controller: startController[index],
+                                    //editing controller of this TextField
                                     decoration: InputDecoration(
+                                      // icon: Icon(Icons.calendar_today),
+                                      //icon of text field
+                                      labelText: "Enter Date",
+                                      //label text of field
                                       border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(2)),
@@ -170,14 +207,33 @@ class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
                                           borderSide:
                                               BorderSide(color: Colors.red)),
                                     ),
-                                    onTap: () {
-                                      DatePickerDialog(initialDate: DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime.now());
-                                    },
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Please enter details';
-                                      }
-                                      return null;
+                                    /*decoration: InputDecoration(
+                                        icon: Icon(Icons.calendar_today), //icon of text field
+                                        labelText: "Enter Date" //label text of field
+                                    ),*/
+                                    readOnly: true,
+                                    //set it true, so that user will not able to edit text
+                                    onTap: () async {
+                                      DateTime? pickedDate = await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(1950),
+                                          //DateTime.now() - not to allow to choose before today.
+                                          lastDate: DateTime(2100));
+
+                                      if (pickedDate != null) {
+                                        print(
+                                            pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                        String formattedDate =
+                                            DateFormat('yyyy-MM-dd')
+                                                .format(pickedDate);
+                                        print(
+                                            formattedDate); //formatted date output using intl package =>  2021-03-16
+                                        setState(() {
+                                          startController[index].text =
+                                              formattedDate; //set output date to TextField value.
+                                        });
+                                      } else {}
                                     },
                                   ),
                                 ]),
@@ -193,9 +249,14 @@ class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  TextFormField(
-                                    // controller: endController,
+                                  TextField(
+                                    controller: endController[index],
+                                    //editing controller of this TextField
                                     decoration: InputDecoration(
+                                      // icon: Icon(Icons.calendar_today),
+                                      //icon of text field
+                                      labelText: "Enter Date",
+                                      //label text of field
                                       border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(2)),
@@ -206,11 +267,30 @@ class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
                                           borderSide:
                                               BorderSide(color: Colors.red)),
                                     ),
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Please enter details';
-                                      }
-                                      return null;
+
+                                    readOnly: true,
+                                    //set it true, so that user will not able to edit text
+                                    onTap: () async {
+                                      DateTime? pickedDate = await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(1950),
+                                          //DateTime.now() - not to allow to choose before today.
+                                          lastDate: DateTime(2100));
+
+                                      if (pickedDate != null) {
+                                        print(
+                                            pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                        String formattedDate =
+                                            DateFormat('yyyy-MM-dd')
+                                                .format(pickedDate);
+                                        print(
+                                            formattedDate); //formatted date output using intl package =>  2021-03-16
+                                        setState(() {
+                                          endController[index].text =
+                                              formattedDate; //set output date to TextField value.
+                                        });
+                                      } else {}
                                     },
                                   ),
                                 ]),
@@ -251,90 +331,20 @@ class _ExperienceDetailWidgetState extends State<ExperienceDetailWidget> {
           ),
         ),
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ElevatedButton.icon(
-            onPressed: () {
-              increaseCount();
-            },
-            label: const Text('Add'),
-            icon: const Icon(Icons.add),
-          ),
-          ElevatedButton.icon(
-            onPressed: () {
-              setState(() {
-                isSubmitted = true;
-              });
-
-              if (_formKey.currentState!.validate()) {
-                // EducationDetailProvider().addEducationDetail(
-                //   courseController.text,
-                //   schoolController.text,
-                //   scoreController.text,
-                //   yearController.text,);
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Education Details save successfully')));
-              }
-            },
-            label: const Text('Save'),
-            icon: const Icon(Icons.done),
-          ),
-        ],
+      floatingActionButton: ElevatedButton.icon(
+        onPressed: () {
+          setState(() {
+            count += 1;
+            companyController.add(TextEditingController());
+            detailsController.add(TextEditingController());
+            jobController.add(TextEditingController());
+            startController.add(TextEditingController());
+            endController.add(TextEditingController());
+          });
+        },
+        label: const Text('Add'),
+        icon: const Icon(Icons.add),
       ),
     );
   }
 }
-/*
-Expanded(
-flex: 2,
-child: Row(
-// mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-children: [
-const Align(
-alignment: Alignment.topLeft,
-child: Text('Start Date')),
-TextFormField(
-controller: startController,
-decoration: InputDecoration(
-border: OutlineInputBorder(
-borderRadius: BorderRadius.circular(2)),
-errorBorder: const OutlineInputBorder(
-borderRadius: BorderRadius.all(
-Radius.circular(2),
-),
-borderSide:
-BorderSide(color: Colors.red)),
-),
-validator: (value) {
-if (value!.isEmpty) {
-return 'Please enter start date';
-}
-return null;
-},
-),
-const Align(
-alignment: Alignment.topLeft,
-child: Text('End Date')),
-TextFormField(
-controller: endController,
-decoration: InputDecoration(
-border: OutlineInputBorder(
-borderRadius: BorderRadius.circular(2)),
-errorBorder: const OutlineInputBorder(
-borderRadius: BorderRadius.all(
-Radius.circular(2),
-),
-borderSide:
-BorderSide(color: Colors.red)),
-),
-validator: (value) {
-if (value!.isEmpty) {
-return 'Please enter End Date';
-}
-return null;
-},
-),
-],
-),
-),*/

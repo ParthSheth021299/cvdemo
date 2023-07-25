@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../screens/education_detail_screen.dart';
 import '../screens/experience_detail_screen.dart';
+import '../screens/objective_screen.dart';
 import '../screens/personal_detail_screen.dart';
+import '../screens/reference_screen.dart';
 import '../screens/signature_screen.dart';
 import '../screens/skills_screen.dart';
 
@@ -17,27 +19,30 @@ class ComponentsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   return SingleChildScrollView(
-      child: Column(
-        children: [
-          const Align(alignment: Alignment.topLeft,child: Text('Components',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)),
-          const Divider(),
-          componentListing(context,Icons.person,'Personal Details',const PersonalDetailScreen()),
-          componentListing(context,Icons.history_edu,'Education',const EducationDetailScreen()),
-          componentListing(context,Icons.person_outline_outlined,'Experience',const ExperienceDetailScreen()),
-          componentListing(context,Icons.person_outline_outlined,'Skills',const SkillScreen()),
-          componentListing(context,Icons.gps_fixed_outlined,'Objective',const PersonalDetailScreen()),
-          componentListing(context,Icons.person_2,'Reference',const PersonalDetailScreen()),
-          const Align(alignment: Alignment.topLeft,child: Text('More Components',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20))),
-          const Divider(),
-          componentListing(context,Icons.rocket_launch,'Project',const PersonalDetailScreen()),
-          componentListing(context,Icons.edit,'Signature',const SignatureScreen()),
-          componentListing(context,Icons.messenger,'Cover Letter',const PersonalDetailScreen()),
-          componentListing(context,Icons.add,'Add More Section',const PersonalDetailScreen()),
-          const Align(alignment: Alignment.topLeft,child: Text('Manage Components',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20))),
-          const Divider(),
-          componentListing(context,Icons.update,'Rearrange / Edit Headings',const PersonalDetailScreen()),
-          componentListing(context,Icons.help,'Help',const PersonalDetailScreen()),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            const Align(alignment: Alignment.topLeft,child: Text('Components',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)),
+            const Divider(),
+            componentListing(context,Icons.person,'Personal Details',const PersonalDetailScreen()),
+            componentListing(context,Icons.history_edu,'Education',const EducationDetailScreen()),
+            componentListing(context,Icons.person_outline_outlined,'Experience',const ExperienceDetailScreen()),
+            componentListing(context,Icons.person_outline_outlined,'Skills',const SkillScreen()),
+            componentListing(context,Icons.gps_fixed_outlined,'Objective',const ObjectiveScreen()),
+            componentListing(context,Icons.person_2,'Reference',const ReferenceScreen()),
+            const Align(alignment: Alignment.topLeft,child: Text('More Components',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20))),
+            const Divider(),
+            componentListing(context,Icons.rocket_launch,'Project',const PersonalDetailScreen()),
+            componentListing(context,Icons.edit,'Signature',const SignatureScreen()),
+            componentListing(context,Icons.messenger,'Cover Letter',const PersonalDetailScreen()),
+            componentListing(context,Icons.add,'Add More Section',const PersonalDetailScreen()),
+            const Align(alignment: Alignment.topLeft,child: Text('Manage Components',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20))),
+            const Divider(),
+            componentListing(context,Icons.update,'Rearrange / Edit Headings',const PersonalDetailScreen()),
+            componentListing(context,Icons.help,'Help',const PersonalDetailScreen()),
+          ],
+        ),
       ),
     );
   }

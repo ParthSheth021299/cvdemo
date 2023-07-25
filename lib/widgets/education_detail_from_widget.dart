@@ -58,6 +58,9 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
   Widget build(BuildContext context) {
     print('Set State USed');
     return Form(
+        autovalidateMode: isSubmitted
+            ? AutovalidateMode.onUserInteraction
+            : AutovalidateMode.disabled,
         key: educationFormKey,
         child: Padding(
           padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
@@ -135,11 +138,12 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
+                    setState(() {
+                      isSubmitted = true;
+                    });
                     List<EducationDetailModel> educationDetailModel = [];
                     if (educationFormKey.currentState!.validate()) {
-                      setState(() {
-                        isSubmitted = true;
-                      });
+
                       for (int i = 0; i < count; i++) {
                         courseValues.insert(i, courseController[i].text);
                         schoolValues.insert(i, schoolController[i].text);
@@ -152,7 +156,8 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                             year: yearController[i].text));
                       }
                       print('Data:${educationDetailModel}');
-                      EducationDetailProvider().addEducationDetail(educationDetailModel);
+                      // EducationDetailProvider().addEducationDetail(educationDetailModel);
+                      EducationDetailProvider().fetchList();
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text('education save successfully')));
                     }

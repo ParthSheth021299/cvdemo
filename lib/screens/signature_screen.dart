@@ -84,30 +84,38 @@ class _SignatureScreenState extends State<SignatureScreen> {
           const SizedBox(
             height: 20,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          Column(
             children: [
-              ElevatedButton.icon(
-                  onPressed: () async {
-                    final directory = await getExternalStorageDirectory();
-                    final signatureFile =
-                        File('${directory!.path}/signature.png');
-                    await submitImage(signatureFile);
-                  },
-                  icon: Icon(Icons.upload),
-                  label: const Text('Upload')),
-              ElevatedButton.icon(
-                  onPressed: () {
-                    controller.clear();
-                  },
-                  icon: Icon(Icons.save),
-                  label: const Text('Save to gallery')),
-              ElevatedButton.icon(
-                  onPressed: () {
-                    controller.clear();
-                  },
-                  icon: Icon(Icons.delete),
-                  label: const Text('Remove')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton.icon(
+                      onPressed: () async {
+                        final directory = await getExternalStorageDirectory();
+                        final signatureFile =
+                            File('${directory!.path}/signature.png');
+                        await submitImage(signatureFile);
+                      },
+                      icon: Icon(Icons.upload),
+                      label: const Text('Upload')),
+                  ElevatedButton.icon(
+                      onPressed: () {
+                        controller.clear();
+                      },
+                      icon: Icon(Icons.save),
+                      label: const Text('Save to gallery')),
+                ],
+              ),
+              SizedBox(height: 10,),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton.icon(
+                    onPressed: () {
+                      controller.clear();
+                    },
+                    icon: Icon(Icons.delete,color: Colors.red),
+                    label: const Text('Remove',style: TextStyle(color: Colors.red),)),
+              ),
             ],
           )
         ],
