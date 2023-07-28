@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../models/education_detail_model.dart';
 import '../provider/education_detail_provider.dart';
@@ -25,10 +24,10 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
   List<TextEditingController> gradeController = [];
   List<TextEditingController> yearController = [];
   var educationProvider;
+
   @override
   void initState() {
     super.initState();
-
     for (int i = 0; i < count; i++) {
       courseController.add(TextEditingController());
       schoolController.add(TextEditingController());
@@ -153,7 +152,8 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                             course: courseController[i].text,
                             school: schoolController[i].text,
                             grade: gradeController[i].text,
-                            year: yearController[i].text));
+                            year: yearController[i].text,
+                            id: ''));
                       }
                       print('Data:${educationDetailModel}');
                       // EducationDetailProvider().addEducationDetail(educationDetailModel);

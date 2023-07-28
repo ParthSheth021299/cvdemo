@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import '../screens/add_more_section.dart';
 import '../screens/education_detail_screen.dart';
 import '../screens/experience_detail_screen.dart';
 import '../screens/objective_screen.dart';
 import '../screens/personal_detail_screen.dart';
+import '../screens/project_detail_screen.dart';
 import '../screens/reference_screen.dart';
 import '../screens/signature_screen.dart';
 import '../screens/skills_screen.dart';
@@ -15,10 +17,9 @@ import '../screens/skills_screen.dart';
 class ComponentsWidget extends StatelessWidget {
   const ComponentsWidget({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-  return SingleChildScrollView(
+    return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -33,10 +34,10 @@ class ComponentsWidget extends StatelessWidget {
             componentListing(context,Icons.person_2,'Reference',const ReferenceScreen()),
             const Align(alignment: Alignment.topLeft,child: Text('More Components',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20))),
             const Divider(),
-            componentListing(context,Icons.rocket_launch,'Project',const PersonalDetailScreen()),
+            componentListing(context,Icons.rocket_launch,'Project',const ProjectScreen()),
             componentListing(context,Icons.edit,'Signature',const SignatureScreen()),
-            componentListing(context,Icons.messenger,'Cover Letter',const PersonalDetailScreen()),
-            componentListing(context,Icons.add,'Add More Section',const PersonalDetailScreen()),
+            // componentListing(context,Icons.messenger,'Cover Letter',const PersonalDetailScreen()),
+            componentListing(context,Icons.add,'Add More Section',const AddMoreScreen()),
             const Align(alignment: Alignment.topLeft,child: Text('Manage Components',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20))),
             const Divider(),
             componentListing(context,Icons.update,'Rearrange / Edit Headings',const PersonalDetailScreen()),
