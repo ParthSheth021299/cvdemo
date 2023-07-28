@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../models/education_detail_model.dart';
@@ -25,6 +26,9 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
   List<TextEditingController> gradeController = [];
   List<TextEditingController> yearController = [];
   var educationProvider;
+  int? firstCardIndex;
+  int? secondCardIndex;
+
   @override
   void initState() {
     super.initState();
@@ -54,9 +58,31 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
     super.dispose();
   }
 
+  void swapCard(int newIndex, int oldIndex) {
+    setState(() {
+      if (newIndex >= count) {
+        newIndex = count - 1;
+      }
+    });
+    final tempCourseController = courseController.removeAt(oldIndex);
+    final tempSchoolController = schoolController.removeAt(oldIndex);
+    final tempGradeController = gradeController.removeAt(oldIndex);
+    final tempYearController = yearController.removeAt(oldIndex);
+
+    courseController.insert(newIndex, tempCourseController);
+    schoolController.insert(newIndex, tempSchoolController);
+    gradeController.insert(newIndex, tempGradeController);
+    yearController.insert(newIndex, tempYearController);
+
+    setState(() {
+      count = courseController.length;
+      firstCardIndex = newIndex;
+      secondCardIndex = oldIndex;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    print('Set State USed');
     return Form(
         autovalidateMode: isSubmitted
             ? AutovalidateMode.onUserInteraction
@@ -66,64 +92,107 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
           padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
           child: Column(children: [
             Expanded(
-              child: ScrollablePositionedList.builder(
-                itemCount: count,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    key: Key('card$index'),
-                    elevation: 2,
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.grey.shade400,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Education ${index + 1}',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        count -= 1;
-                                      });
-                                      courseController.removeAt(index);
-                                      schoolController.removeAt(index);
-                                      gradeController.removeAt(index);
-                                      yearController.removeAt(index);
-                                    },
-                                    icon: const Icon(Icons.delete))
-                              ],
+              child: ReorderableListView.builder(
+                  itemBuilder: (context, index) {
+                    return Card(
+                      key: Key('card$index'),
+                      elevation: 2,
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                    Color.fromRGBO(110, 110, 110 ,1),
+                                    Color.fromRGBO(189, 189, 189 ,1),
+                                  ],
+                                )
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Education ${index + 1}',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            if (count == 1) {
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                  const SnackBar(
+                                                      content: Text(
+                                                          'You cannot delete this item')));
+                                            } else {
+                                              setState(() {
+                                                count -= 1;
+                                              });
+                                              courseController.removeAt(index);
+                                              schoolController.removeAt(index);
+                                              gradeController.removeAt(index);
+                                              yearController.removeAt(index);
+                                            }
+
+                                          },
+                                          icon: FaIcon(FontAwesomeIcons.trash,color:Colors.red))
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: EducationList(
-                              index: index,
-                              courseController: courseController[index],
-                              schoolController: schoolController[index],
-                              gradeController: gradeController[index],
-                              yearController: yearController[index],
-                            )
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
+                          Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: EducationList(
+                                index: index,
+                                courseController: courseController[index],
+                                schoolController: schoolController[index],
+                                gradeController: gradeController[index],
+                                yearController: yearController[index],
+                              ))
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: count ,
+                  onReorder: (oldIndex, newIndex) {
+                    print('OLD INDEX ${oldIndex}');
+                    print('NEW INDEX ${newIndex}');
+                    setState(() {
+                      if (newIndex > oldIndex) {
+                        newIndex = newIndex - 1;
+                      }
+                    });
+                    final tempCourseController =
+                    courseController.removeAt(oldIndex);
+                    final tempSchoolController =
+                    schoolController.removeAt(oldIndex);
+                    final tempGradeController =
+                    gradeController.removeAt(oldIndex);
+                    final tempYearController =
+                    yearController.removeAt(oldIndex);
+
+                    courseController.insert(newIndex, tempCourseController);
+                    schoolController.insert(newIndex, tempSchoolController);
+                    gradeController.insert(newIndex, tempGradeController);
+                    yearController.insert(newIndex, tempYearController);
+                  })
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton.icon(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.blue)
+                  ),
                   onPressed: () {
                     setState(() {
                       count += 1;
@@ -133,17 +202,19 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                       yearController.add(TextEditingController());
                     });
                   },
-                  label: Text('Add'),
-                  icon: Icon(Icons.add),
+                  label: Text('Add',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
+                  icon: FaIcon(FontAwesomeIcons.add,color:Colors.white)
                 ),
                 ElevatedButton.icon(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.green)
+                  ),
                   onPressed: () {
                     setState(() {
                       isSubmitted = true;
                     });
                     List<EducationDetailModel> educationDetailModel = [];
                     if (educationFormKey.currentState!.validate()) {
-
                       for (int i = 0; i < count; i++) {
                         courseValues.insert(i, courseController[i].text);
                         schoolValues.insert(i, schoolController[i].text);
@@ -162,125 +233,12 @@ class _EducationDetailWidgetState extends State<EducationDetailWidget> {
                           content: Text('education save successfully')));
                     }
                   },
-                  label: Text('Save'),
-                  icon: Icon(Icons.done),
+                  label: Text('Save',style: TextStyle(color: Colors.white),),
+                  icon: FaIcon(FontAwesomeIcons.solidSave,color:Colors.white)
                 )
               ],
             )
           ]),
         ));
   }
-
-/* Widget textField(int index) {
-    return Column(
-      children: [
-        const Align(alignment: Alignment.topLeft, child: Text('Course/Degree')),
-        const SizedBox(
-          height: 10,
-        ),
-        TextFormField(
-          controller: courseController[index],
-          maxLines: 1,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(2)),
-            errorBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(2),
-                ),
-                borderSide: BorderSide(color: Colors.red)),
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              for (int i = 0; i <= index; i++) {
-              if (courseController.isEmpty) {
-                return "Please enter Course/Degree";
-              }
-              }
-              return "Please enter Course/Degree";
-            }
-            return null;
-          },
-        ),
-        const Align(
-            alignment: Alignment.topLeft, child: Text('School/ University')),
-        const SizedBox(
-          height: 10,
-        ),
-        TextFormField(
-          controller: schoolController[index],
-          decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(2)),
-            errorBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(2),
-                ),
-                borderSide: BorderSide(color: Colors.red)),
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              for (int i = 0; i < index; i++) {
-              if (schoolController.isEmpty) {
-                return 'Please enter School/University';
-              }
-               }
-              return 'Please enter School/University';
-            }
-            return null;
-          },
-        ),
-        const Align(alignment: Alignment.topLeft, child: Text('Grade/Score')),
-        const SizedBox(
-          height: 10,
-        ),
-        TextFormField(
-          controller: gradeController[index],
-          decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(2)),
-            errorBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(2),
-                ),
-                borderSide: BorderSide(color: Colors.red)),
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              for (int i = 0; i < index; i++) {
-              if (gradeController.isEmpty) {
-                return 'Please enter Grade';
-              }
-              }
-              return 'Please enter Grade';
-            }
-            return null;
-          },
-        ),
-        const Align(alignment: Alignment.topLeft, child: Text('year')),
-        const SizedBox(
-          height: 10,
-        ),
-        TextFormField(
-          controller: yearController[index],
-          decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(2)),
-            errorBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(2),
-                ),
-                borderSide: BorderSide(color: Colors.red)),
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              for (int i = 0; i < index; i++) {
-              if (yearController.isEmpty) {
-                return 'Please enter year';
-              }
-              }
-              return 'Please enter year';
-            }
-            return null;
-          },
-        ),
-      ],
-    );
-  }*/
 }

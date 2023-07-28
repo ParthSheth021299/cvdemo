@@ -10,7 +10,7 @@ class EducationDetailScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: const Text('Eduction Detail'),
+        title: const Text('Education Detail'),
       ),
       body: const EducationDetailWidget(),
     );
